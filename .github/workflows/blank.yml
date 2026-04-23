@@ -7,6 +7,10 @@ on:
   release:
     types: [published]
 
+# Add write permissions to allow the action to push commits
+permissions:
+  contents: write
+
 jobs:
   download_and_commit:
     runs-on: ubuntu-latest
@@ -22,7 +26,7 @@ jobs:
 
           echo "Downloading file from: $RELEASE_URL"
           wget -O "$LOCAL_FILE_NAME" "$RELEASE_URL"
-          echo "✅ File downloaded: $LOCAL_FILE_NAME"
+          echo ":white_check_mark: File downloaded: $LOCAL_FILE_NAME"
 
       - name: Configure Git
         run: |
@@ -37,25 +41,25 @@ jobs:
           set -e
           LOCAL_FILE_NAME="platformio-ide-3.3.4.vsix"
 
-          echo "🔍 Checking if file exists..."
+          echo ":mag: Checking if file exists..."
           if [ ! -f "$LOCAL_FILE_NAME" ]; then
-            echo "❌ File not found: $LOCAL_FILE_NAME"
+            echo ":x: File not found: $LOCAL_FILE_NAME"
             exit 1
           fi
 
-          echo "📂 Adding file to commit..."
+          echo ":open_file_folder: Adding file to commit..."
           git add "$LOCAL_FILE_NAME"
 
           # Check if there are staged changes
           if git diff --staged --quiet; then
-            echo "ℹ️ No changes to commit."
+            echo ":information_source: No changes to commit."
           else
-            echo "📝 Committing changes..."
+            echo ":memo: Committing changes..."
             # Customize commit message as needed
             git commit -m "Add PlatformIO VSCode extension v3.3.4"
 
-            echo "🚀 Pushing changes to repository..."
+            echo ":rocket: Pushing changes to repository..."
             # Use the GITHUB_TOKEN (your PAT) for authentication
             git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
-            echo "✅ Push completed successfully."
+            echo ":white_check_mark: Push completed successfully."
           fi
