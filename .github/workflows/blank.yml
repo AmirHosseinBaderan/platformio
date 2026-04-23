@@ -21,8 +21,8 @@ jobs:
 
       - name: Download file from release URL
         run: |
-          RELEASE_URL="https://github.com/microsoft/vscode-cpptools/releases/download/v1.32.1/cpptools-linux-arm64.vsix"
-          LOCAL_FILE_NAME="cpptools-linux-arm64.vsix"
+          RELEASE_URL="https://github.com/microsoft/vscode-cpptools/releases/download/v1.32.1/cpptools-linux-arm32.vsix"
+          LOCAL_FILE_NAME="cpptools-linux-arm32.vsix"
 
           echo "Downloading file from: $RELEASE_URL"
           wget -O "$LOCAL_FILE_NAME" "$RELEASE_URL"
@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_PAT }} # Use the PAT for pushing
         run: |
           set -e
-          LOCAL_FILE_NAME="cpptools-linux-arm64.vsix"
+          LOCAL_FILE_NAME="cpptools-linux-arm32.vsix"
 
           echo ":mag: Checking if file exists..."
           if [ ! -f "$LOCAL_FILE_NAME" ]; then
@@ -56,7 +56,7 @@ jobs:
           else
             echo ":memo: Committing changes..."
             # Customize commit message as needed
-            git commit -m "Add cpptools-linux-arm64.vsix"
+            git commit -m "Add cpptools-linux-arm32.vsix"
 
             echo ":rocket: Pushing changes to repository..."
             # Use the GITHUB_TOKEN (your PAT) for authentication
