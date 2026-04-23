@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.MY_GITHUB_PAT }} # Use your personal token for checkout
 
       - name: Download file from release URL
         run: |
@@ -26,12 +28,13 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.name "amirhosseinbaderan"
-          git config --global user.email "amir0hossin0pr@gmail.com"
+          # Use a bot-like identity for commits pushed by actions
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Add, Commit, and Push file
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_PAT }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_PAT }} # Use the PAT for pushing
         run: |
           set -e
           LOCAL_FILE_NAME="platformio-ide-3.3.4.vsix"
@@ -45,13 +48,16 @@ jobs:
           echo "📂 Adding file to commit..."
           git add "$LOCAL_FILE_NAME"
 
+          # Check if there are staged changes
           if git diff --staged --quiet; then
             echo "ℹ️ No changes to commit."
           else
             echo "📝 Committing changes..."
+            # Customize commit message as needed
             git commit -m "Add PlatformIO VSCode extension v3.3.4"
 
             echo "🚀 Pushing changes to repository..."
+            # Use the GITHUB_TOKEN (your PAT) for authentication
             git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
             echo "✅ Push completed successfully."
           fi
