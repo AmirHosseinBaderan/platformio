@@ -3,18 +3,19 @@ name: Download and Commit Release File
 on:
   push:
     branches:
-      - main # Or your default branch like 'master'
+      - main  # Adjust if your default branch is different
   release:
-    types: [published] # Trigger when a new release is published
+    types: [published]
 
 jobs:
   download_and_commit:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} # Use the default GITHUB_TOKEN for checkout if not pushing with a PAT
+          token: ${{ secrets.MY_GITHUB_PAT }}  
 
       - name: Download file from release URL
         run: |
@@ -23,27 +24,36 @@ jobs:
 
           echo "Downloading file from: $RELEASE_URL"
           wget -O "$LOCAL_FILE_NAME" "$RELEASE_URL"
-          echo "File downloaded successfully to $LOCAL_FILE_NAME"
+          echo "✅ File downloaded: $LOCAL_FILE_NAME"
 
       - name: Configure Git
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Add, Commit, and Push file
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_PAT }}
         run: |
-          # Add the downloaded file to be tracked by Git
-          git add . # Replace with the actual file name you downloaded
+          set -e
+          LOCAL_FILE_NAME="platformio-ide-3.3.4.vsix"
 
-          # Check if there are any changes to commit
+          echo "🔍 Checking if file exists..."
+          if [ ! -f "$LOCAL_FILE_NAME" ]; then
+            echo "❌ File not found: $LOCAL_FILE_NAME"
+            exit 1
+          fi
+
+          echo "📂 Adding file to commit..."
+          git add "$LOCAL_FILE_NAME"
+
           if git diff --staged --quiet; then
-            echo "No changes to commit."
+            echo "ℹ️ No changes to commit."
           else
-            # Commit the changes
-            git commit -m "Add downloaded file from release v1.0.0" # Customize commit message
+            echo "📝 Committing changes..."
+            git commit -m "Add PlatformIO VSCode extension v3.3.4"
 
-            # Push the changes to the repository
-            # Use a personal access token if you need to push to a different repo or with different permissions
-            # Otherwise, the default GITHUB_TOKEN might have push permissions depending on your repo settings
-            git push origin HEAD:${{ github.ref_name }}
+            echo "🚀 Pushing changes to repository..."
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref_name }}
+            echo "✅ Push completed successfully."
           fi
