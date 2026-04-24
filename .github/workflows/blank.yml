@@ -20,8 +20,8 @@ jobs:
 
       - name: Download file from release URL
         run: |
-          RELEASE_URL="https://github.com/microsoft/vscode-cpptools/releases/download/v1.32.1/cpptools-linux-x64.vsix"
-          LOCAL_FILE_NAME="cpptools-linux-x64.vsix"
+          RELEASE_URL="https://github.com/MatsuriDayo/nekoray/releases/download/4.0.1/nekoray-4.0.1-2024-12-12-debian-x64.deb"
+          LOCAL_FILE_NAME="nekoray-4.0.1-2024-12-12-debian-x64.deb"
 
           echo "Downloading file from: $RELEASE_URL"
           wget -O "$LOCAL_FILE_NAME" "$RELEASE_URL"
@@ -48,8 +48,8 @@ jobs:
           else
             echo ":warning: File size > ${MAX_SIZE_MB} MB, splitting into ${SPLIT_SIZE_MB} MB parts..."
 
-            BASENAME="${LOCAL_FILE_NAME%.*}"   # cpptools-linux-x64
-            EXTENSION="${LOCAL_FILE_NAME##*.}" # vsix
+            BASENAME="${LOCAL_FILE_NAME%.*}"   
+            EXTENSION="${LOCAL_FILE_NAME##*.}" 
             TARGET_DIR="$BASENAME"
 
             mkdir -p "$TARGET_DIR"
