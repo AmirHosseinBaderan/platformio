@@ -29,7 +29,7 @@ jobs:
 
       - name: Split file if larger than 100 MB
         run: |
-          LOCAL_FILE_NAME="cpptools-linux-x64.vsix"
+          LOCAL_FILE_NAME="nekoray-4.0.1-2024-12-12-debian-x64.deb"
           MAX_SIZE_MB=100
           SPLIT_SIZE_MB=90
 
