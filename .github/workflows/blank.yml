@@ -20,8 +20,8 @@ jobs:
 
       - name: Download file from release URL
         run: |
-          RELEASE_URL="https://github.com/therealaleph/MasterHttpRelayVPN-RUST/releases/download/v1.2.12/mhrv-rs-linux-amd64.tar.gz"
-          LOCAL_FILE_NAME="mhrv-rs-linux-amd64.tar.gz"
+          RELEASE_URL="https://github.com/yt-dlp/yt-dlp/releases/download/2026.03.17/yt-dlp_linux"
+          LOCAL_FILE_NAME="yt-dlp_linux"
 
           echo "Downloading file from: $RELEASE_URL"
           wget -O "$LOCAL_FILE_NAME" "$RELEASE_URL"
@@ -29,7 +29,7 @@ jobs:
 
       - name: Split file if larger than 100 MB
         run: |
-          LOCAL_FILE_NAME="mhrv-rs-linux-amd64.tar.gz"
+          LOCAL_FILE_NAME="yt-dlp_linux"
           MAX_SIZE_MB=100
           SPLIT_SIZE_MB=90
 
@@ -81,7 +81,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_PAT }} # Use the PAT for pushing
         run: |
           set -e
-          LOCAL_FILE_NAME="mhrv-rs-linux-amd64.tar.gz"
+          LOCAL_FILE_NAME="yt-dlp_linux"
 
           echo ":mag: Preparing files for commit..."
 
