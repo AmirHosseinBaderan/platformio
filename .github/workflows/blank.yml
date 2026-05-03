@@ -20,8 +20,8 @@ jobs:
 
       - name: Download file from release URL
         run: |
-          RELEASE_URL="https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux.zip"
-          LOCAL_FILE_NAME="yt-dlp_linux.zip"
+          RELEASE_URL="https://github.com/espressif/arduino-esp32/releases/download/3.3.8/esp32-core-3.3.8.tar.xz"
+          LOCAL_FILE_NAME="esp32-core-3.3.8.tar.xz"
 
           echo "Downloading file from: $RELEASE_URL"
           wget -O "$LOCAL_FILE_NAME" "$RELEASE_URL"
@@ -29,7 +29,7 @@ jobs:
 
       - name: Split file if larger than 100 MB
         run: |
-          LOCAL_FILE_NAME="yt-dlp_linux.zip"
+          LOCAL_FILE_NAME="esp32-core-3.3.8.tar.xz"
           MAX_SIZE_MB=100
           SPLIT_SIZE_MB=90
 
@@ -81,7 +81,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_PAT }} # Use the PAT for pushing
         run: |
           set -e
-          LOCAL_FILE_NAME="yt-dlp_linux.zip"
+          LOCAL_FILE_NAME="esp32-core-3.3.8.tar.xz"
 
           echo ":mag: Preparing files for commit..."
 
